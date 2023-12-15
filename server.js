@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const db = require('./db');
 const path = require('path');
+const socket = require('socket.io');
 
 const app = express();
 
@@ -18,6 +19,13 @@ app.use(cors());
     "origin": "https://kodilla.com", //origin sets domains that we approve
     "methods": "GET,POST", //we allow only GET and POST methods
 })); */
+
+//middleware for io - to be available in routers
+app.use((req, res, next) => {
+    req.io = io;
+    next();
+  });
+
 app.use('/api', testimonialRoutes); // add testimonials routes to server
 app.use('/api', concertRoutes); // add concert routes to server
 app.use('/api', seatRoutes); // add seat routes to server
@@ -35,6 +43,16 @@ app.use((req, res) => {
     res.status(404).json({ message: 'Not found...' });
 });
 
-app.listen(process.env.PORT || 8000, () => {
+//start server
+const server = app.listen(process.env.PORT || 8000, () => {
     console.log('Server is running on port: 8000');
   });
+
+//integrate socket with server
+const io = socket(server);
+
+//listener on event connection
+io.on('connection', (socket) => {
+    console.log('New socket!');
+});
+  
