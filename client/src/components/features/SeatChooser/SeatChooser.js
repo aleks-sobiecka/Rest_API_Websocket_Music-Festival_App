@@ -13,6 +13,9 @@ const SeatChooser = ({ chosenDay, chosenSeat, updateSeat }) => {
   const dispatch = useDispatch();
   const seats = useSelector(getSeats);
   const requests = useSelector(getRequests);
+
+  const allSeats = 50;
+  const freeSeats = (allSeats - (seats.filter(item => item.day === chosenDay).length));
   
   useEffect(() => {
     dispatch(loadSeatsRequest());
@@ -54,6 +57,9 @@ const SeatChooser = ({ chosenDay, chosenSeat, updateSeat }) => {
       { (requests['LOAD_SEATS'] && requests['LOAD_SEATS'].success) && <div className="seats">{[...Array(50)].map((x, i) => prepareSeat(i+1) )}</div>}
       { (requests['LOAD_SEATS'] && requests['LOAD_SEATS'].pending) && <Progress animated color="primary" value={50} /> }
       { (requests['LOAD_SEATS'] && requests['LOAD_SEATS'].error) && <Alert color="warning">Couldn't load seats...</Alert> }
+      <div>
+        <small id="pickHelp" className="form-text text-muted ms-2">Free seats: {freeSeats}/{allSeats}</small>
+      </div>
     </div>
   )
 }
