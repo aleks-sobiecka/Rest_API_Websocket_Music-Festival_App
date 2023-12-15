@@ -1,0 +1,16 @@
+{
+  "name": "Rest_API_database",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:aleks-sobiecka/Rest_API_database.git",
+  "author": "Aleksandra Sobiecka <aleks.sobiecka@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "4.17.1",
+    "uuid": "^9.0.1"
+  },
+  "scripts": {
+    "start": "nodemon server.js"
+  }
+}
